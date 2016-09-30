@@ -24,9 +24,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :occupations
-  has_many :things, through: :occupations
-
   validates :name,
     presence: true,
     uniqueness: {
