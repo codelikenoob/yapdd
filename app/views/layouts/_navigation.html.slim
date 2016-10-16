@@ -1,0 +1,43 @@
+header.navbar.navbar-fixed-top.navbar-default
+  .container
+    = link_to "ЯПДД", root_path, class: "btn btn-lg btn-success", id: "logo"
+    - if user_signed_in?
+      ul.nav_ul_item
+        li.dropdown
+          = link_to '#', class: "btn btn-default btn-danger dropdown-toggle", "data-toggle" => "dropdown" do
+            = (params[:domain] == nil) ? ("Новый") : Domain.find_by_domainname(params[:domain]).domainname
+            b.caret
+          ul.dropdown-menu
+//            - Domain.where(user: current_user).each do |domain|
+//              li
+//                = link_to domain.domainname, "/domains/?domain=#{domain.domainname}"
+            li.divider
+//            li
+//              = link_to(new_domain_path) do
+//                | Добавить домен
+    - if user_signed_in?
+//      - if params[:domain_id] != nil
+//        .nav_item
+//          = link_to "Добавить email", new_domain_email_path, class: "btn btn-default btn-warning"
+      ul.nav_item.pull-right
+        li.dropdown
+          = link_to '#', class: "btn btn-default btn-danger dropdown-toggle", "data-toggle" => "dropdown" do
+            b = current_user.name
+            b.caret
+          ul.dropdown-menu
+            li
+              = link_to "Посмотреть профиль", user_profile_path
+            li
+              = link_to "Отредактировать профиль", edit_user_registration_path
+            li.divider
+            li
+              = link_to "Выйти", destroy_user_session_path
+    - else
+      ul.nav_ul_item
+
+      .btn-group
+
+      li[style="float:left;padding:0 10px"]
+        = link_to "Зарегистрироваться", new_user_registration_path, class: "btn btn-default btn-success"
+      li[style="float:left;"]
+        = link_to "Войти", new_user_session_path, class: "btn btn-default btn-success"
