@@ -1,4 +1,4 @@
 class UsersController < ApplicationController
-  def profile
+  def dashboard
   end
 end
