@@ -3,7 +3,7 @@ header.navbar.navbar-fixed-top.navbar-default
     = link_to "ЯПДД", root_path, class: "btn btn-lg btn-success", id: "logo"
     - if user_signed_in?
       ul.nav_item.navbar-right
-        li.dropdown
+        li.dropdown.tolefton15
           a.btn.btn-danger.dropdown-toggle[data-toggle="dropdown"]
             b = current_user.name
             b.caret
@@ -16,7 +16,7 @@ header.navbar.navbar-fixed-top.navbar-default
             li
               = link_to "Выйти", destroy_user_session_path, method: :delete
     - else
-      ul.nav_item.navbar-right
+      ul.nav_item.navbar-right.tolefton15
         li.inline-button
           = link_to "Зарегистрироваться", new_user_registration_path, class: "btn btn-success"
         li.inline-button

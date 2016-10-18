@@ -1,51 +1,10 @@
-$navbar-default-bg: #312312;
-$light-orange: #ff8c00;
-$navbar-default-color: $light-orange;
-
-#logo {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  float: left;
-  margin-right: 10px;
-  font-size: 2em;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  padding-top: 9px;
-  font-weight: bold;
-}
-
-#logo:hover {
-  color: white;
-  text-decoration: none;
-}
-
 body {
   padding-top: 80px;
 }
 
-.nav_item {
-  margin-left: 25px;
-  float: left;
-  margin-top: 20px;
-  list-style: none;
-  .inline-button {
-    display: inline-block;
-    &:nth-child(1n+2) {
-      padding-left: 10px;
-    }
-  }
-}
-
-//.nav_ul_item {
-  //padding-left: 25px;
-  //float: left;
-  //margin-top: 20px;
-  //list-style: none;
-//}
-
 h1, h2, h3, h4 {
   line-height: 1;
+  letter-spacing: .5px;
 }
 
 h1 {
@@ -65,13 +24,13 @@ h2 {
 
 .left {
   text-align: left;
-  letter-spacing: .5px;
 }
 
-.footer {
-  margin-top: 25px;
-  border-top: 1px solid #eaeaea;
-  color: #777;
+.middle {
+  text-align: center;
+}
+
+.right {
   text-align: right;
 }
 
@@ -139,4 +98,17 @@ span.image {
   padding-top: 2px;
   padding-bottom: 2px;
   list-style: none;
+}
+
+.tolefton15 {
+  padding-right: 15px;
+}
+
+.buttoncenter {
+  margin: 0 auto;
+  padding: 0 auto;
+}
+
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"]{
+  width: 16px;
 }
