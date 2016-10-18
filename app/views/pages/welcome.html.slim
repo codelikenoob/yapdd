@@ -1,0 +1,29 @@
+.center.jumbotron
+  h1
+    | Управление Яндекс.ПочтойДляДоменов
+  h2
+    |  Это приборная панель для управления вашим доменом, подключенным к Яндекс.Почте, созданная ленивым сисадмином для собственного удобства 
+  p.middle
+   = link_to "Зарегистрироваться!", new_user_registration_path, class: "btn btn-lg btn-success middle"
+.row
+  .col-lg-4
+    h3.midrow
+      |  Официальный ЯПДД 
+    h2.left
+      | Перейти на официальную страницу управления Яндекс.ПочтыДляДоменов от самого Яндекса
+    p
+      = link_to "Перейти в официальный ЯПДД", "http://pdd.yandex.ru", class: "btn btn-warning btn-small middle"
+  .col-lg-4
+    h3.midrow
+      |  Войти, как существующий пользователь 
+    h2.left
+      | Здесь вы можете управлять всем, доступным через API Яндекса.
+    p
+      = link_to "Войти", new_user_session_path, class: "btn btn-warning btn-small"
+  .col-lg-4
+    h3.midrow
+      |  Дать денег 
+    h2.left
+      | Сделать пожертвование в Сибирских Червонцах на дальнейшее развитие сервиса и шоколадку для админа
+    p
+      = link_to "Отправить немного SIB", "sibcoin:SN78hxRK7RhWPoz5rWBAyFmVjN4brp8sg9?label=YaPDD&message=%D0%9D%D0%B0%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5%20%D0%AF%D0%9F%D0%94%D0%94", class: "btn btn-warning btn-small middle"

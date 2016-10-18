@@ -1,0 +1,22 @@
+﻿h2
+  | Редактировать
+  = resource_name.to_s.humanize
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :login, required: true, autofocus: true
+    - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+      p
+        | Currently waiting confirmation for: 
+        = resource.unconfirmed_email
+    = f.input :password, autocomplete: "выкл", hint: "оставьте пустым, если не хотите менять", required: false
+    = f.input :password_confirmation, required: false
+    = f.input :current_password, hint: "введите свой текущий пароль, чтобы внести изменение", required: true
+  .form-actions
+    = f.button :submit, "Обновить"
+h3
+  | Удалить мой аккаунт
+p
+  | Unhappy? 
+  = link_to "Удалить аккаунт", registration_path(resource_name), data: { confirm: "Это окончательное решение?" }, method: :delete
+= link_to "Назад", :back

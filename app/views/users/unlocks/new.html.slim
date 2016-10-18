@@ -1,0 +1,10 @@
+﻿h2
+  | Отправить инструкцию по разблокировке ещё раз
+= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
+  = f.error_notification
+  = f.full_error :unlock_token
+  .form-inputs
+    = f.input :email, required: true, autofocus: true, label: 'E-mail'
+  .form-actions
+    = f.button :submit, "Отправить"
+= render "users/shared/links"

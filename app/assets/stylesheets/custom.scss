@@ -1,0 +1,114 @@
+body {
+  padding-top: 80px;
+}
+
+h1, h2, h3, h4 {
+  line-height: 1;
+  letter-spacing: .5px;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: #777;
+}
+
+.left {
+  text-align: left;
+}
+
+.middle {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.user_info {
+  margin-top: 10px;
+}
+
+.gravatar {
+  border-radius: 10px;
+}
+
+.well {
+  backgroud-color: #ededed;
+}
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #d2d2d2;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.input_checkbox input {
+  width: auto !important;
+}
+
+input {
+  height: auto !important;
+}
+
+.badge {
+  background-color: white !important;
+}
+
+.spaceright {
+  margin: 0 5px 0 0;
+}
+
+span.image {
+  margin-top: 10px;
+
+  input {
+    border: 0;
+  }
+}
+
+.show_domain {
+  margin: 10px;
+}
+
+.alert-message {
+  position: absolute;
+  top: 80px;
+  left: 15%;
+}
+
+.disabledmail, .disabledmail a {
+  text-decoration: line-through;
+  text-color: grey;
+}
+
+.mailsfix {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  list-style: none;
+}
+
+.tolefton15 {
+  padding-right: 15px;
+}
+
+.buttoncenter {
+  margin: 0 auto;
+  padding: 0 auto;
+}
+
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"]{
+  width: 16px;
+}

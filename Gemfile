@@ -13,6 +13,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'slim-rails'
 gem 'simple_form'
+gem 'devise'
 
 group :development, :test do
   gem 'byebug', platform: :mri

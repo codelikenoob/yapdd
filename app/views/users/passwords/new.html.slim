@@ -1,0 +1,9 @@
+﻿h2
+  | Забыли пароль?
+= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name, required: true, autofocus: true, label: 'Имя'
+  .form-actions
+    = f.button :submit, "Отправить мне письмо для восстановления пароля на почту"
+= render "users/shared/links"
