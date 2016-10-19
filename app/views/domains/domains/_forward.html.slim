@@ -8,11 +8,11 @@ h4
   | :
 ul.list-group
   - @filters = Hash.from_xml(Nokogiri::Slop(@domain.get_forward_list(@email)).to_s)
-  - if @filters.fetch("page").fetch("ok").fetch("filters") == nil
+  - if @filters.fetch('page').fetch('ok').fetch('filters') == nil
     i
       | Переадресации не установлены
   - else
-    - @q = @filters.fetch("page", "no page").fetch("ok", "not ok").fetch("filters", "no filters").fetch("filter", "no filter")
+    - @q = @filters.fetch('page', 'no page').fetch('ok', 'not ok').fetch('filters', 'no filters').fetch('filter', 'no filter')
     - if @q.class == Array
       - @q.each do |f|
         li.list-group-item

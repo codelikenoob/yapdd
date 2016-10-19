@@ -2,8 +2,8 @@
   before_action :set_domain, only: [:edit, :update, :show, :index, :refresh, :check_for_forwards, :killfilter, :addfilter, :get_inside_mail, :kill_that_mail, :block_that_mail, :unblock_that_mail]
 
   def index
-	redirect_to new_domain_path if current_user.domains.empty?    
-	@domains = current_user.domains.all
+    redirect_to new_domain_path if current_user.domains.empty?    
+    @domains = current_user.domains
   end
 
   def show
@@ -14,9 +14,7 @@
   end
 
   def create
-    @domain = Domain.new(domain_params)
-    @domain.user = current_user
-
+    @domain = current_user.domains.new(domain_params)
     if @domain.save
       flash[:success] = "Домен добавлен!"
       redirect_to domains_path
@@ -35,8 +33,10 @@
   end
 
   def set_domain
-    @domain = current_user.domains.first
+    @domain = Domain.find(params[:id])
+    if @domain.user != current_user
+	  render status: 403, layout: false
+	end
   end
-
   
 end

@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   root to: 'pages#welcome'
 
   scope module: 'domains' do
-	resources :domains do
-		resources :emails, shallow: true 
-	end
+    resources :domains do
+    resources :emails, shallow: true 
+    end
   end
 
 end
