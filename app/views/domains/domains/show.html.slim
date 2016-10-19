@@ -1,0 +1,16 @@
+- # render 'shared/page_title', title: @domain.domainname
+h1
+  = @domain.domainname
+  = link_to " ", edit_domain_path(@domain), class: "glyphicon glyphicon-pencil"
+  = link_to " ", refresh_domain_path(@domain), class: "glyphicon glyphicon-refresh"
+  - # link_to "Удалить", delete_domain_path(@domain), method: :delete, data: {confirm: "Точно? О_о"}, class: "glyphicon glyphicon-remove"
+.row
+  .col-md-8
+    .show_recipe
+      - @domain.domain_get_image_url(@domain) if @domain.image
+      = image_tag(@domain.image, class: "gravatar")
+      - @domain.domain_get_emails(@domain) if @domain.emails
+      - @domain.emails.each do |q|
+        ul
+          li
+            = q.mailname

@@ -1,0 +1,24 @@
+| ﻿
+= render 'shared/errors', obj: @domain
+.row
+  .well.col-md-8.col-md-offset-2
+    = form_for(@domain, html: { multipart: true }) do |f|
+      = f.label "Имя домена:"
+      = f.text_field :domainname
+      = f.label 'Токен API: '
+      br
+      small
+        | (получить его можно 
+        a[href="https://pddimp.yandex.ru/get_token.xml"]
+          | здесь
+        | )
+      = f.text_field :domaintoken
+      = f.label 'Токен API2: '
+      br
+      small
+        | (получить его можно 
+        a[href="https://pddimp.yandex.ru/api2/admin/get_token"]
+          | здесь
+        | )
+      = f.text_field :domaintoken2
+      = f.submit(@domain.new_record? ? 'Добавить' : 'Сохранить', class: "btn btn-success")

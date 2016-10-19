@@ -10,10 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930100931) do
+ActiveRecord::Schema.define(version: 20161018210648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "domains", force: :cascade do |t|
+    t.string   "domainname"
+    t.string   "domaintoken"
+    t.string   "domaintoken2"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "image"
+  end
+
+  create_table "emails", force: :cascade do |t|
+    t.integer  "domain_id"
+    t.string   "mailname"
+    t.date     "birth_date"
+    t.string   "iname"
+    t.string   "fname"
+    t.string   "hintq"
+    t.decimal  "sex"
+    t.boolean  "enabled"
+    t.boolean  "signed_eula"
+    t.string   "fio"
+    t.string   "aliases"
+    t.string   "pswrd"
+    t.string   "hinta"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

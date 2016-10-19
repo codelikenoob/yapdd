@@ -2,6 +2,19 @@ header.navbar.navbar-fixed-top.navbar-default
   .container
     = link_to "ЯПДД", root_path, class: "btn btn-lg btn-success", id: "logo"
     - if user_signed_in?
+      ul.nav_item
+        li.dropdown
+          a.btn.btn-default.dropdown-toggle[data-toggle="dropdown"]
+            =' @domain.domainname
+            b.caret
+          ul.dropdown-menu
+            - @domains.each do |d|
+              li
+                = link_to d.domainname, '#'
+            li.divider
+            li
+              = link_to "Добавить домен", new_domain_path
+    - if user_signed_in?
       ul.nav_item.navbar-right
         li.dropdown.tolefton15
           a.btn.btn-danger.dropdown-toggle[data-toggle="dropdown"]
