@@ -5,7 +5,7 @@ class YapddAPI
   def initialize
   end
 
-  def get_inside_mailbox(domain, email)
+  def get_inside_mailbox(email)
     request_url = "https://pddimp.yandex.ru/api/user_oauth_token.xml?domain=#{email.domain.domainname}&token=#{email.domain.domaintoken}&login=#{email.mailname}"
     request = RestClient.get(request_url)
     result = Hash.from_xml(Nokogiri::Slop(request).to_s)

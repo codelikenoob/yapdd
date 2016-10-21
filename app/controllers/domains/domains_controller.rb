@@ -2,7 +2,6 @@
 
 class Domains::DomainsController < Domains::ApplicationController
   before_action :set_domain, only: [:edit, :update, :show, :index, :dashboard, :refresh, :check_for_forwards, :killfilter, :addfilter, :kill_that_mail, :block_that_mail, :unblock_that_mail]
-  before_action :set_email, only: [:get_inside_mail]
 
   def index
   end
@@ -38,10 +37,6 @@ class Domains::DomainsController < Domains::ApplicationController
     redirect_to :back
   end
 
-  def get_inside_mail
-    YapddAPI.new.get_inside_mailbox(@domain,@email)
-  end
-
   private
   
   def domain_params
@@ -55,13 +50,6 @@ class Domains::DomainsController < Domains::ApplicationController
       @domain = current_user.domains.first
     end
     if @domain.user != current_user
-      render status: 403, layout: false
-    end
-  end
-
-  def set_email
-    @email = Email.find(params[:id])
-    if @email.domain.user != current_user
       render status: 403, layout: false
     end
   end

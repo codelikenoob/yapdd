@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   get 'refresh/:id', to: "domains/domains#refresh", as: 'refresh_domain'
-  get 'get_inside_mail/:id', to: "domains/domains#get_inside_mail", as: 'get_inside_mail'
+  get 'get_inside_mail/:id', to: "domains/emails#get_inside_mail", as: 'get_inside_mail'
 
   
 end
