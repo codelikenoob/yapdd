@@ -1,4 +1,6 @@
-﻿class Domains::DomainsController < Domains::ApplicationController
+﻿require 'yapdd_api'
+
+class Domains::DomainsController < Domains::ApplicationController
   before_action :set_domain, only: [:edit, :update, :show, :index, :dashboard, :refresh, :check_for_forwards, :killfilter, :addfilter, :kill_that_mail, :block_that_mail, :unblock_that_mail]
   before_action :set_email, only: [:get_inside_mail]
 
@@ -37,7 +39,7 @@
   end
 
   def get_inside_mail
-    @email.get_inside_mailbox
+    YapddAPI.new.get_inside_mailbox(@domain,@email)
   end
 
   private
