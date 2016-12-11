@@ -1,24 +1,30 @@
-| ﻿
 = render 'shared/errors', obj: @domain
-br
-br
 h4
-  = params[:email]
-|  Имя: 
-= @email.iname.presence ? (@email.iname) : "хз"
-|  Фамилия: 
-= @email.fname.presence ? (@email.fname) : "хз"
-|  ФИО: 
-= @email.fio.presence ? (@email.fio) : "хз"
-|  День рождения: 
-= @email.birth_date.presence ? (@email.birth_date) : "хз"
-|  Секретный вопрос: 
-= @email.hintq.presence ? (@email.hintq) : "хз"
-|  Пол: 
-= (@email.sex == 1) ? 'мужской' : ((@email.sex == 2) ? 'женский' : 'всё сложно')
-|  Фурычит ли: 
-= @email.enabled ? "да" : "нет"
-|  Подписано ли соглашение: 
-= @email.signed_eula.presence ? (@email.signed_eula) : "хз"
-|  Информация обновлена: 
-= @email.updated_at
+  = "Ящик " + @email.mailname + ":"
+p
+  |  Имя: 
+  = @email.iname.presence ? (@email.iname) : "хз"
+p
+  |  Фамилия: 
+  = @email.fname.presence ? (@email.fname) : "хз"
+p
+  |  ФИО: 
+  = @email.fio.presence ? (@email.fio) : "хз"
+p
+  |  День рождения: 
+  = @email.birth_date.presence ? (@email.birth_date) : "хз"
+p
+  |  Секретный вопрос: 
+  = @email.hintq.presence ? (@email.hintq) : "хз"
+p
+  |  Пол: 
+  = (@email.sex == 1) ? 'мужской' : ((@email.sex == 2) ? 'женский' : 'всё сложно')
+p
+  |  Фурычит ли: 
+  = @email.enabled ? "да" : "нет"
+p
+  |  Подписано ли соглашение: 
+  = @email.signed_eula.presence ? (@email.signed_eula) : "хз"
+p
+  |  Информация обновлена: 
+  = @email.updated_at

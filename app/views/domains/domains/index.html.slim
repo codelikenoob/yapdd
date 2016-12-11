@@ -1,0 +1,40 @@
+| ﻿
+- if (@domains.where(user: current_user).size == 0) then (redirect_to add_domain_path) end
+  = render 'shared/page_title', title: "Домен #{@domain.domainname}"
+  - # will_paginate
+  .row
+    .col-md-3
+      .show_domain
+        ul.list-group
+          - @domain.emails.order("mailname").each do |email|
+            li.list-group-item.mailsfix
+              span.badge.pull-right
+                | <a class="glyphicon glyphicon-envelope spaceright" href="/get_inside_mail/?domain=
+                = @domain.domainname
+                | &email=
+                = email.mailname
+                | " target="_blank" title="Войти в этот ящик"> 
+                |  <a onclick="if(!confirm('Вы точно хотите безвозвратно удалить ящик 
+                = email.mailname
+                | ?')){return false;}" class="glyphicon glyphicon-remove spaceright" href="/kill_that_mail/?domain=
+                = @domain.domainname
+                | &email=
+                = email.mailname
+                | " target="_blank" title="Удалить этот ящик"> 
+                |  <a onclick="if(!confirm('Вы точно хотите заблокировать ящик 
+                = email.mailname
+                | ?')){return false;}" class="glyphicon glyphicon-off spaceright" href="/
+                = if (email.enabled == false) then "un" end
+                | block_that_mail/?domain=
+                = @domain.domainname
+                | &email=
+                = email.mailname
+                | " target="_blank" title="Заблокировать этот ящик"> 
+              |  <span class="
+              - if email.enabled == false
+                | disabledmail
+              | ">
+              = link_to email.mailname, domains_path("domain" => @domain.domainname, "email" => email.mailname, "tab" => ((params[:tab]) ? (params[:tab]) : "info"))
+    .col-md-8
+      = render 'layouts/tabs'
+  - # will_paginate

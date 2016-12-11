@@ -1,0 +1,19 @@
+ul.nav.nav-tabs
+  |  <li
+  - if session[:tab] == "info" or session[:tab] == nil
+    |  class="active" 
+  | > 
+  = link_to "Информация", controller: "domains/domains", action: "change_tab", id: "info"
+
+  | </li> <li
+  - if session[:tab] == "new_email"
+    |  class="active" 
+  | > 
+  = link_to "Новый ящик", controller: "domains/emails", action: "new", id: "new"
+  | </li> <li
+  - if session[:tab] == "forward"
+    |  class="active" 
+  | > 
+  = link_to "Переадресация", controller: "domains/domains", action: "change_tab", id: "forward"
+  | </li>
+= render_content

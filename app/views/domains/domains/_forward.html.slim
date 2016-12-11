@@ -1,46 +1,16 @@
-| ﻿
 = render 'shared/errors', obj: @domain
-br
-br
 h4
-  | Переадресации 
+  | Переадресации ящика 
   = @email.mailname
   | :
 ul.list-group
-  - @filters = Hash.from_xml(Nokogiri::Slop(@domain.get_forward_list(@email)).to_s)
-  - if @filters.fetch('page').fetch('ok').fetch('filters') == nil
-    i
-      | Переадресации не установлены
-  - else
-    - @q = @filters.fetch('page', 'no page').fetch('ok', 'not ok').fetch('filters', 'no filters').fetch('filter', 'no filter')
-    - if @q.class == Array
-      - @q.each do |f|
-        li.list-group-item
-          strong
-            = f.fetch('filter_param')
-          |  <a class="glyphicon glyphicon-remove" href="/killfilter/?domain=
-          = params[:domain]
-          | &email=
-          = params[:email]
-          | &tab=
-          = params[:tab]
-          | &filter=
-          = f.fetch('id')
-          | ">
-    - else
-      li.list-group-item
-        strong
-          = @q.fetch('filter_param')
-        |  <a class="glyphicon glyphicon-remove" href="/killfilter/?domain=
-        = params[:domain]
-        | &email=
-        = params[:email]
-        | &tab=
-        = params[:tab]
-        | &filter=
-        = @q.fetch('id')
-        | ">
-form[action="/addfilter/"]
+  - get_filters
+  - @filters.each do |fltr|
+    li class="list-group-item"
+      =' fltr['filter_param']
+      = link_to " ", kill_filter_path(fltr['id']), class: "glyphicon glyphicon-remove"
+  
+form[action="/add_filter/"]
   .input-group
     span#basic-addon1.input-group-addon
       | @

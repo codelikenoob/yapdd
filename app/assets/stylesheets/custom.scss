@@ -107,3 +107,9 @@ span.image {
 .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"]{
   width: 16px;
 }
+
+.disabled {
+  color:grey;
+  font-style:italic;
+  text-decoration:line-through;
+}
