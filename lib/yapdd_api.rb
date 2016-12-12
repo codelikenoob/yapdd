@@ -12,6 +12,20 @@ class YapddAPI
     "http://passport.yandex.ru/passport?mode=oauth&error_retpath=&access_token=#{token}&type=trusted-pdd-partner"
   end
 
+  def ya_email_update(email)
+    request = RestClient.get("https://pddimp.yandex.ru/edit_user.xml?token=#{email.domain.domaintoken}&domain_name=#{email.domain.domainname}&login=#{email.mailname}&password=#{email.pswrd}&iname=#{email.iname}&fname=#{email.fname}&hintq=#{email.hintq}&hinta=#{email.hinta}&sex=#{email.sex}")
+    result = Hash.from_xml(Nokogiri::Slop(request).to_s)
+    if result.fetch("page").fetch("error", false)
+      if result.fetch("page", "page").fetch("error", "error").fetch("reason", "reason") == "no_address"
+        flash[:danger] = "Какая-то фигня с адресом :( (#{result})"
+      else
+        flash[:danger] = "Что-то пошло не так! (#{result})"
+      end
+    else
+      true
+    end
+  end
+
   def add_filter
     request_url = "https://pddimp.yandex.ru/set_forward.xml?token=#{@domain.domaintoken}&login=#{params[:email]}&address=#{params[:address]}&copy=yes"
     request = RestClient.get(request_url)
@@ -27,7 +41,7 @@ class YapddAPI
     end
     redirect_to root_path
   end
-
+  
   def kill_filter
     request = RestClient.get("https://pddimp.yandex.ru/delete_forward.xml?token=#{@domain.domaintoken}&login=#{params[:email]}&filter_id=#{params[:filter]}")
     result = Hash.from_xml(Nokogiri::Slop(request).to_s)

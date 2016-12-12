@@ -1,7 +1,7 @@
 = render 'shared/errors', obj: @domain
 h4
   | Переадресации ящика 
-  = @email.mailname
+  = @email.mailname + "@" + @domain.domainname
   | :
 ul.list-group
   - get_filters
@@ -14,21 +14,13 @@ form[action="/add_filter/"]
   .input-group
     span#basic-addon1.input-group-addon
       | @
-    |  <input type="hidden" name="domain" value="
-    = params[:domain]
-    | "> <input type="hidden" name="email" value="
-    = params[:email]
-    | "> <input type="hidden" name="tab" value="
-    = params[:tab]
+    | <input type="hidden" name="email" value="
+    = params[:address]
     | "> 
     input.form-control[type="text" placeholder="Куда переадресовать?" aria-describedby="basic-addon1" name="address"]
     input.button[type="submit" value="Плюх" style="display:none;"]
-|  <a href="/addfilter/?domain=
-= params[:domain]
-| &email=
-= params[:email]
-| &tab=
-= params[:tab]
+|  <a href="/addfilter/?&email=
+= :address
 | ">
 br
 br

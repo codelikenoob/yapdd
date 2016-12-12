@@ -26,10 +26,11 @@ class Domain < ApplicationRecord
       break if JSON.parse(request)['accounts'].size == 0
       JSON.parse(request)['accounts'].each do |m|
           newemail = self.emails.new
-          newemail.mailname = m['login']
+          newemail.mailname = m['login'].split("@")[0]
+          newemail.uid = m['uid']
           newemail.fname = m['fname']
           newemail.iname = m['iname']
-          newemail.birth_date = m['birth_date']
+          newemail.birth_date = "#{m['birth_date']}"
           newemail.sex = m['sex']
           newemail.hintq = m['hintq']
           m['enabled'] == "yes" ? newemail.enabled = 1 : newemail.enabled = 0

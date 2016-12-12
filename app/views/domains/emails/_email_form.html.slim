@@ -1,13 +1,15 @@
 | ﻿
 = render 'shared/errors', obj: @email
 .row
-  .well.col-md-8.col-md-offset-2
-    = form_for(@email, html: { multipart: true }) do |f|
+  .well.col-md-8
+    = form_for @email, html: { multipart: true }, url: { method: :post } do |f|
       = f.label 'Имя: *'
       = f.text_field :iname
       = f.label 'Фамилия: *'
       = f.text_field :fname
-      = f.label 'Пароль:'
+      = f.label 'Email: *'
+      = f.text_field :mailname
+      = f.label 'Пароль (6 - 20 символов):'
       = f.text_field :pswrd
       = f.label 'День рождения:'
       = f.text_field :birth_date
@@ -15,8 +17,9 @@
       = f.text_field :hintq
       = f.label 'Секретный ответ:'
       = f.text_field :hinta
-      = f.label 'Пол:'
+      = f.label 'Пол (1 - мужской, 2 - женский):'
       = f.text_field :sex
+      / = f.select(:sex, [['Мужской', "1"], ['Женский', "2"]])
 
       = f.submit(@email.new_record? ? 'Добавить' : 'Сохранить', class: "btn btn-success")
 

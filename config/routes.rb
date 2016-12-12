@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   get 'set_current_email/:id', to: "domains/emails#set_current_email", as: 'set_current_email'
   get 'change_tab/:id', to: "domains/domains#change_tab", as: 'change_tab'
   get 'kill_filter/:id', to: "domains/emails#kill_filter", as: 'kill_filter'
-  get 'email/new', to: "domains/emails#new"
+  get 'add_filter', to: "domains/emails#add_filter"
+  get 'email/new', to: "domains/emails#new", as: 'new_email'
+  post 'email/new', to: "domains/emails#create"
+  get 'kill_that_mail/:id', to: "domains/emails#kill_that_mail", as: 'kill_that_mail'
   
 end

@@ -9,7 +9,7 @@ ul.nav.nav-tabs
   - if session[:tab] == "new_email"
     |  class="active" 
   | > 
-  = link_to "Новый ящик", controller: "domains/emails", action: "new", id: "new"
+  = link_to "Новый ящик", controller: "domains/emails", action: "new"
   | </li> <li
   - if session[:tab] == "forward"
     |  class="active" 

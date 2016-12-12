@@ -1,6 +1,6 @@
 = render 'shared/errors', obj: @domain
 h4
-  = "Ящик " + @email.mailname + ":"
+  = "Ящик " + @email.mailname + "@" + @email.domain.domainname + ":"
 p
   |  Имя: 
   = @email.iname.presence ? (@email.iname) : "хз"
