@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215103556) do
+ActiveRecord::Schema.define(version: 20161216221508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20161215103556) do
     t.string   "iname"
     t.string   "fname"
     t.string   "hintq"
-    t.decimal  "sex"
     t.boolean  "enabled"
     t.boolean  "signed_eula"
     t.string   "fio"
@@ -42,6 +41,7 @@ ActiveRecord::Schema.define(version: 20161215103556) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "uid"
+    t.string   "sex"
     t.index ["uid"], name: "index_emails_on_uid", using: :btree
   end
 

@@ -12,7 +12,11 @@ module ApplicationHelper
 
   def get_filters
     q = Hash.from_xml(Nokogiri::Slop(@domain.get_forward_list(@email)).to_s)
-    @filters = q.fetch('page', 'no page').fetch('ok', 'not ok').fetch('filters', 'no filters').fetch('filter', 'no filter')
+    if q.fetch('page', 'no page').fetch('ok', 'not ok').fetch('filters', 'no filters') != nil
+      @filters = q.fetch('page', 'no page').fetch('ok', 'not ok').fetch('filters', 'no filters').fetch('filter', 'no filter')    
+    else
+      @filters = []
+    end     
     if @filters.class != Array
       @filters = [@filters]
     end

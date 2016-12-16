@@ -1,30 +1,39 @@
 = render 'shared/errors', obj: @domain
 h4
   = "Ящик " + @email.mailname + "@" + @email.domain.domainname + ":"
-p
-  |  Имя: 
-  = @email.iname.presence ? (@email.iname) : "хз"
-p
-  |  Фамилия: 
-  = @email.fname.presence ? (@email.fname) : "хз"
-p
-  |  ФИО: 
-  = @email.fio.presence ? (@email.fio) : "хз"
-p
-  |  День рождения: 
-  = @email.birth_date.presence ? (@email.birth_date) : "хз"
-p
-  |  Секретный вопрос: 
-  = @email.hintq.presence ? (@email.hintq) : "хз"
-p
-  |  Пол: 
-  = (@email.sex == 1) ? 'мужской' : ((@email.sex == 2) ? 'женский' : 'всё сложно')
-p
-  |  Фурычит ли: 
-  = @email.enabled ? "да" : "нет"
-p
-  |  Подписано ли соглашение: 
-  = @email.signed_eula.presence ? (@email.signed_eula) : "хз"
-p
-  |  Информация обновлена: 
-  = @email.updated_at
+.row
+  = render 'domains/emails/email_update_form'
+  .well.col-md-5
+    h4
+      | Суммарная информация:
+    p
+      |  Имя: 
+      = @email.iname.presence ? (@email.iname) : "хз"
+    p
+      |  Фамилия: 
+      = @email.fname.presence ? (@email.fname) : "хз"
+    p
+      |  ФИО: 
+      = @email.fio.presence ? (@email.fio) : "хз"
+    p
+      |  День рождения: 
+      = @email.birth_date.presence ? (@email.birth_date) : "хз"
+    p
+      |  Секретный вопрос: 
+      = @email.hintq.presence ? (@email.hintq) : "хз"
+    p
+      |  Пол: 
+      = (@email.sex == "1") ? 'мужской' : ((@email.sex == "2") ? 'женский' : 'всё сложно')
+    p
+      |  Фурычит ли: 
+      => @email.enabled ? "да" : "нет"
+      => link_to " ", change_block_status_path(@email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{@email.mailname}@#{@domain.domainname}?" }
+    p
+      |  Подписано ли соглашение: 
+      = @email.signed_eula.presence ? (@email.signed_eula) : "хз"
+    p
+      |  Информация обновлена: 
+      = @email.updated_at
+    p
+    hr
+      | * Пароль и ответ на секретный вопрос безвозвратно забываются при обновлении инфрмации о ящиках

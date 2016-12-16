@@ -28,5 +28,6 @@ Rails.application.routes.draw do
   get 'profile', to: "users#profile", as: 'profile'
   get 'delete_domain/:id', to: "domains/domains#destroy", as: 'delete_domain'
   patch 'update_domain/:id', to: "domains/domains#update", as: 'update_domain'
+  patch 'update_email/:id', to: "domains/emails#update", as: 'update_email'
   
 end

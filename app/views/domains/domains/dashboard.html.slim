@@ -19,7 +19,7 @@
             = link_to email.mailname, set_current_email_path(email.id)
           span class="badge pull-right"
             => link_to " ", get_inside_mail_path(email.id), class: "glyphicon glyphicon-envelope spaceright", target: "_blank", title: "Войти в этот ящик"
-            => link_to " ", change_block_status_path(email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{email.mailname}?" }
+            => link_to " ", change_block_status_path(email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{email.mailname}@#{@domain.domainname}?" }
             => link_to " ", kill_that_mail_path(email.id), class: "glyphicon glyphicon-remove", title: "Прибить ящик", data: { confirm: "Точно хотите убить, а не заблокировать ящик #{email.mailname}?" }
       - if @domain.emails.size == 0
         hr

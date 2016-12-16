@@ -3,9 +3,9 @@ require 'uri'
 
 class Domains::EmailsController < Domains::ApplicationController
 
-  before_action :set_domain, only: [:get_inside_mail, :kill_that_mail, :new, :create, :add_filter]
-  before_action :set_domains, only: [:new]
-  before_action :set_email, only: [:get_inside_mail, :kill_that_mail]
+  before_action :set_domain, only: [:get_inside_mail, :kill_that_mail, :new, :create, :add_filter, :update]
+  before_action :set_domains, only: [:new, :update]
+  before_action :set_email, only: [:get_inside_mail, :kill_that_mail, :update]
   before_action :set_tab
 
   def get_inside_mail
@@ -45,11 +45,26 @@ class Domains::EmailsController < Domains::ApplicationController
         @email.uid = result.fetch("page").fetch("ok").fetch("uid")
     end
     
-    url = URI::encode("https://pddimp.yandex.ru/api2/admin/email/edit?domain=#{@email.domain.domainname}&login=#{@email.mailname}&password=#{@email.pswrd}&iname=#{@email.iname}&fname=#{@email.fname}&birth_date=#{@email.birth_date.strftime('%F')}&hintq=#{@email.hintq}&hinta=#{@email.hinta}&sex=#{@email.sex.round}")
+    url_custom = "https://pddimp.yandex.ru/api2/admin/email/edit?domain=#{@email.domain.domainname}&login=#{@email.mailname}"
+    url_custom = url_custom + "&password=#{@email.pswrd}" if @email.pswrd.present?
+    url_custom = url_custom + "&iname=#{@email.iname}" if @email.iname.present?
+    url_custom = url_custom + "&fname=#{@email.fname}" if @email.fname.present?
+    url_custom = url_custom + "&birth_date=#{@email.birth_date.strftime('%F')}" if @email.birth_date.present?
+    url_custom = url_custom + "&hintq=#{@email.hintq}" if @email.hintq.present?
+    url_custom = url_custom + "&hinta=#{@email.hinta}" if @email.hinta.present?
+    url_custom = url_custom + "&sex=#{@email.sex}" if @email.sex.present?
+
+    url = URI::encode(url_custom)
     request = RestClient::Request.execute(method: :post, url: url, headers: { PddToken: "#{@email.domain.domaintoken2}" })
     @result = JSON.parse(request)
-    puts @result.to_s
+    
+    puts "---------"
+    puts url_custom
+    puts "---------"
     puts url
+    puts "---------"
+    puts @result.to_s
+    puts "---------"
     
     @email.enabled = true
     
@@ -61,6 +76,39 @@ class Domains::EmailsController < Domains::ApplicationController
     else
       render :new_email
     end
+  end
+
+  def update
+    if @email.update(email_params)
+      flash[:success] = "Мыло успешно отредактировано"
+      session[:tab] = "info"
+      session[:current_email] = @email.id
+    else
+      flash[:danger] = "Что-то пошло не так"
+    end
+
+    url_custom = "https://pddimp.yandex.ru/api2/admin/email/edit?domain=#{@email.domain.domainname}&login=#{@email.mailname}"
+    url_custom = url_custom + "&password=#{@email.pswrd}" if @email.pswrd.present?
+    url_custom = url_custom + "&iname=#{@email.iname}" if @email.iname.present?
+    url_custom = url_custom + "&fname=#{@email.fname}" if @email.fname.present?
+    url_custom = url_custom + "&birth_date=#{@email.birth_date.strftime('%F')}" if @email.birth_date.present?
+    url_custom = url_custom + "&hintq=#{@email.hintq}" if @email.hintq.present?
+    url_custom = url_custom + "&hinta=#{@email.hinta}" if @email.hinta.present?
+    url_custom = url_custom + "&sex=#{@email.sex}" if @email.sex.present?
+
+    url = URI::encode(url_custom)
+    request = RestClient::Request.execute(method: :post, url: url, headers: { PddToken: "#{@email.domain.domaintoken2}" })
+    @result = JSON.parse(request)
+
+    puts "---------"
+    puts url_custom
+    puts "---------"
+    puts url
+    puts "---------"
+    puts @result.to_s
+    puts "---------"
+    
+    redirect_to root_path
   end
 
   def kill_that_mail
@@ -135,7 +183,7 @@ private
   end
   
   def set_email
-    @email = @domain.emails.find(params[:id])
+    @email = @domain.emails.find_by_id(params[:id])
     if @email.domain.user != current_user
       render status: 403, layout: false
       @email = nil

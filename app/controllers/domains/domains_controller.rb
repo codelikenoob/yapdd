@@ -64,6 +64,7 @@ class Domains::DomainsController < Domains::ApplicationController
   def refresh
     @domain.refresh_emails
     session[:current_email] = nil
+    session[:tab] = "info"
     flash[:success] = "Информация обновлена"
     redirect_to root_path
   end
@@ -76,6 +77,7 @@ class Domains::DomainsController < Domains::ApplicationController
     end
     if @domain.user == current_user
       session[:current_domain] = @domain.id
+      session[:tab] = "info"
       if @domain.emails.first != nil
         session[:current_email] = @domain.emails.order(:mailname).first.id
       end

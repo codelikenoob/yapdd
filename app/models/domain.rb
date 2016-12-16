@@ -34,7 +34,7 @@ class Domain < ApplicationRecord
           newemail.fname = m['fname']
           newemail.iname = m['iname']
           newemail.birth_date = "#{m['birth_date']}"
-          newemail.sex = m['sex']
+          newemail.sex = m['sex'].to_s
           newemail.hintq = m['hintq']
           m['enabled'] == "yes" ? newemail.enabled = 1 : newemail.enabled = 0
           newemail.aliases = m['aliases']
