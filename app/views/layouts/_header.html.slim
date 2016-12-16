@@ -8,7 +8,7 @@ header.navbar.navbar-fixed-top.navbar-default
             => @domain.domainname
             b.caret
           ul.dropdown-menu
-            - @domains.each do |d|
+            - @domains.order(:domainname).each do |d|
               li
                 = link_to d.domainname, change_domain_path(d.id)
             li.divider
@@ -22,9 +22,9 @@ header.navbar.navbar-fixed-top.navbar-default
             b.caret
           ul.dropdown-menu
             li
-              = link_to "Посмотреть профиль", '#'
+              = link_to "Посмотреть профиль", profile_path
             li
-              = link_to "Отредактировать профиль", '#'
+              = link_to "Ещё какой-то пункт", '#'
             li.divider
             li
               = link_to "Выйти", destroy_user_session_path, method: :delete

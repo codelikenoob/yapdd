@@ -25,6 +25,8 @@ class Domains::DomainsController < Domains::ApplicationController
     @domain = current_user.domains.new(domain_params)
     if @domain.save
       flash[:success] = "Домен добавлен!"
+      @domain.refresh_emails
+      session[:current_domain] = @domain.id
       redirect_to root_path
     else
       render :new
@@ -32,6 +34,31 @@ class Domains::DomainsController < Domains::ApplicationController
   end
 
   def edit
+  end
+
+  def update
+    if @domain.update(domain_params)
+      flash[:success] = "Домен успешно отредактирован"
+      redirect_to profile_path
+    else
+      flash[:danger] = "Что-то пошло не так"
+      redirect_to profile_path
+    end
+  end
+
+  def destroy
+    @domain = Domain.find_by_id(params[:id])
+    @domain.emails.each do |bb|
+      bb.destroy
+    end
+    if @domain.user = current_user
+      @domain.destroy
+      flash[:success] = "Домен удалён!"
+      redirect_to profile_path
+    else
+      flash[:danger] = "Не твоё - не тронь!"
+      redirect_to profile_path
+    end
   end
 
   def refresh
@@ -49,7 +76,9 @@ class Domains::DomainsController < Domains::ApplicationController
     end
     if @domain.user == current_user
       session[:current_domain] = @domain.id
-      session[:current_email] = @domain.emails.order(:mailname).first.id
+      if @domain.emails.first != nil
+        session[:current_email] = @domain.emails.order(:mailname).first.id
+      end
       redirect_to root_path
     else
       redirect_to root_path
@@ -70,15 +99,24 @@ class Domains::DomainsController < Domains::ApplicationController
 
   def set_domain
     if session[:current_domain] != nil
-      @domain = Domain.find(session[:current_domain])
-    else
+      if Domain.find_by_id(session[:current_domain])
+        @domain = Domain.find_by_id(session[:current_domain])
+      else
+        session[:current_domain] = nil
+      end
+    elsif session[:current_domain] == nil
       @domain = current_user.domains.first
-      session[:current_domain] = @domain.id      
     end
-    if @domain.user != current_user
-      session[:current_domain] = nil
-      render status: 403, layout: false
-    end    
+    if @domain == nil
+      redirect_to new_domain_path
+    else
+      if @domain.user != current_user
+        session[:current_domain] = nil
+        render status: 403, layout: false
+      else
+        session[:current_domain] = @domain.id      
+      end    
+    end
   end
 
   def set_domains
@@ -86,8 +124,16 @@ class Domains::DomainsController < Domains::ApplicationController
   end
   
   def set_email
+    if @domain.emails.empty?
+      session[:tab] = "new_email"
+      redirect_to new_email_path
+    end
     if session[:current_email] != nil
-      @email = @domain.emails.find(session[:current_email])
+      if @domain.emails.find_by_id(session[:current_email])
+        @email = @domain.emails.find(session[:current_email])
+      else
+        session[:current_email] = nil
+      end
     else
       @email = @domain.emails.order(:mailname).first
       session[:current_email] = @email.id
@@ -95,8 +141,11 @@ class Domains::DomainsController < Domains::ApplicationController
   end
 
   def set_tab
-    if session[:tab] == nil
+    if (session[:tab] == nil) and (@email != nil)
       session[:tab] = "info"
+    end
+    if @email == nil
+      session[:tab] = "new_mail"
     end
   end
 

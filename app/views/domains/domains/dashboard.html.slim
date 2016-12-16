@@ -6,7 +6,7 @@
   .col-md-3
     .show_domain
       => "Ящиков в " + @domain.domainname + ":"
-      => @domain.emails.order("mailname").size
+      => @domain.emails.size
       span class="pull-right"
         => link_to " ", refresh_domain_path(@domain), class: "glyphicon glyphicon-refresh", title: "Обновить информацию о ящиках в этом домене"
         => link_to " ", " ", class: "glyphicon glyphicon-plus", title: "Добавить новый email"
@@ -21,5 +21,11 @@
             => link_to " ", get_inside_mail_path(email.id), class: "glyphicon glyphicon-envelope spaceright", target: "_blank", title: "Войти в этот ящик"
             => link_to " ", change_block_status_path(email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{email.mailname}?" }
             => link_to " ", kill_that_mail_path(email.id), class: "glyphicon glyphicon-remove", title: "Прибить ящик", data: { confirm: "Точно хотите убить, а не заблокировать ящик #{email.mailname}?" }
+      - if @domain.emails.size == 0
+        hr
+          b
+            = "В домене #{@domain.domainname} нет ни одного ящика. Если Вы их уже создали, попробуйте " 
+            = link_to "обновить", refresh_domain_path(@domain)
+            = " список ящиков"
   .col-md-8
     = render 'layouts/tabs'

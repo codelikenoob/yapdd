@@ -25,5 +25,8 @@ Rails.application.routes.draw do
   get 'email/new', to: "domains/emails#new", as: 'new_email'
   post 'email/new', to: "domains/emails#create"
   get 'kill_that_mail/:id', to: "domains/emails#kill_that_mail", as: 'kill_that_mail'
+  get 'profile', to: "users#profile", as: 'profile'
+  get 'delete_domain/:id', to: "domains/domains#destroy", as: 'delete_domain'
+  patch 'update_domain/:id', to: "domains/domains#update", as: 'update_domain'
   
 end

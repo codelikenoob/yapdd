@@ -1,0 +1,7 @@
+br
+.col-md-8.col-md-offset-2
+  = link_to "Добавить домен", new_domain_path, class: "btn btn-success pull-right"
+br
+br
+- @domains.each do |d|
+  = render 'domains/domains/form_domains', domain: d

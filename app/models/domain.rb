@@ -16,6 +16,9 @@ class Domain < ApplicationRecord
   def domain_get_image_url
     request = RestClient::Request.execute(method: :get, url: "https://pddimp.yandex.ru/api2/admin/domain/logo/check?domain=#{self.domainname}", headers: { PddToken: "#{self.domaintoken2}" })
     self.image = JSON.parse(request)['logo-url']
+    if self.image.empty?
+      self.image = "https://img-fotki.yandex.ru/get/50936/10713508.2341/0_f6abb_45be1c77_S.jpg"
+    end
     self.save
   end
 
