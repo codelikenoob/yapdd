@@ -20,6 +20,7 @@ module ApplicationHelper
     if @filters.class != Array
       @filters = [@filters]
     end
+    @filters = @filters.sort_by{|item| item["filter_param"]}
   end
 
 end
