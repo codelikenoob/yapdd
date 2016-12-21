@@ -1,5 +1,5 @@
 | ﻿
-/ = render 'shared/errors', obj: domain
+= render 'shared/errors', obj: domain
 .row
   .well.col-md-8.col-md-offset-2
     = form_for(domain, url: update_domain_path(domain), html: {multipart: true, method: 'patch'}) do |f|

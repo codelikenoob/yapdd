@@ -7,8 +7,7 @@ ul.list-group
   - get_filters
   - if @filters.size == 0
     br
-    br
-      = "Переадресаций не установлено"
+    = "Переадресаций не установлено"
   - @filters.each do |fltr|
     li class="list-group-item"
       =' fltr['filter_param']

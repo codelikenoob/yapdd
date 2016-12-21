@@ -1,3 +1,7 @@
+scss:
+  table{width:100%;margin:0;padding:0;vertical-align:bottom;}
+  td{vertical-align:bottom;margin-bottom:0px;}
+  button{border: 1px solid #d2d2d2;border-radius: 5px; width: 80px;}
 | ﻿
 = render 'shared/errors', obj: @email
 .row
@@ -13,12 +17,22 @@
       = f.text_field :pswrd
       = f.label 'День рождения:'
       = f.text_field :birth_date
-      = f.label 'Секретный вопрос:'
+      table
+        tr
+          td
+            = f.label 'Секретный вопрос:'
+          td.right
+            <button onclick="document.getElementById('email_hintq').value=hintR(35,1);return false">random</button>
       = f.text_field :hintq
-      = f.label 'Секретный ответ:'
+      table
+        tr
+          td
+            = f.label 'Секретный ответ:'
+          td.right
+            <button onclick="document.getElementById('email_hinta').value=hintR(35,0);return false">random</button>
       = f.text_field :hinta
       = f.label 'Пол (1 - мужской, 2 - женский):'
-      = f.text_field :sex
-      / = f.select(:sex, [['Мужской', "1"], ['Женский', "2"]])
+      / = f.text_field :sex
+      = f.select :sex, [['Загадочный', "0"],['Мужской', "1"], ['Женский', "2"]]
 
       = f.submit(@email.new_record? ? 'Добавить' : 'Сохранить', class: "btn btn-success")

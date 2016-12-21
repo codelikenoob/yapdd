@@ -82,9 +82,11 @@ span.image {
 }
 
 .alert-message {
+  z-index: 10;
   position: absolute;
   top: 80px;
-  left: 15%;
+  width: 400px;
+  right: 1%;
 }
 
 .disabledmail, .disabledmail a {
@@ -116,4 +118,13 @@ span.image {
 
 hr {
   margin-bottom: 0px;
+}
+
+.name {
+  padding:0;
+  margin:0;
+}
+
+.panel-heading{
+  font-weight:bold;
 }

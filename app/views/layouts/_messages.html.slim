@@ -1,9 +1,9 @@
-#message.row.alert-message[style="display:none;z-index:10;"]
-  .col-md-12
+#message.row.alert-message[style="display:none;"]
+  .col-md-10
     - flash.each do |message_type, message|
-      |  <div class="alert alert-
+      | <div class="alert alert-
       = message_type
       | ">
       = message
 script
-  |  window.onload=function() { $("#message").fadeIn(1000).delay(6000).fadeOut(700); }; 
+  |  window.onload=function() { $("#message").fadeIn(1000).delay(16000).fadeOut(700); }; 

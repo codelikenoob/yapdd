@@ -1,10 +1,11 @@
 - if obj
   - if obj.errors.any?
-    .row
-      .alert.alert-danger.col-md-8.col-md-offset-2
-        h5
-          | Пожалуйста, исправьте это:
-        ul
-          - obj.errors.full_messages.each do |msg|
-            li
-              = msg
+      errors = ""
+      - obj.errors.full_messages.each do |msg|
+        errors = errors + msg + "\n"
+      #errors.row.alert-message[style="display:none;z-index:10;"]
+        .col-md-10
+          .alert.alert-danger
+            = errors
+script
+  |  window.onload=function() { $("#errors").fadeIn(1000).delay(6000).fadeOut(700); }; 

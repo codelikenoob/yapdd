@@ -27,7 +27,8 @@ Rails.application.routes.draw do
   get 'kill_that_mail/:id', to: "domains/emails#kill_that_mail", as: 'kill_that_mail'
   get 'profile', to: "users#profile", as: 'profile'
   get 'delete_domain/:id', to: "domains/domains#destroy", as: 'delete_domain'
+  get 'faq', to: "pages#faq", as: 'faq'
   patch 'update_domain/:id', to: "domains/domains#update", as: 'update_domain'
   patch 'update_email/:id', to: "domains/emails#update", as: 'update_email'
-  
+
 end

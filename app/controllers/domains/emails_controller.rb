@@ -74,7 +74,12 @@ class Domains::EmailsController < Domains::ApplicationController
       flash[:success] = "Ящик добавлен!"
       redirect_to root_path
     else
-      render :new_email
+      errors = ""
+      @email.errors.full_messages.each do |err|
+        errors = errors + err + "\n"
+      end
+      flash[:danger] = "Что-то пошло не так!\n#{errors}"
+      redirect_to new_email_path
     end
   end
 

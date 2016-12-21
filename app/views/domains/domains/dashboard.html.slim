@@ -9,18 +9,24 @@
       => @domain.emails.size
       span class="pull-right"
         => link_to " ", refresh_domain_path(@domain), class: "glyphicon glyphicon-refresh", title: "Обновить информацию о ящиках в этом домене"
-        => link_to " ", " ", class: "glyphicon glyphicon-plus", title: "Добавить новый email"
-      ul class="list-group"
-      - @domain.emails.order("mailname").each do |email|
-        li class="list-group-item mailsfix"
-          - if email.enabled == false
-            = link_to email.mailname, set_current_email_path(email.id), class: "disabled"
-          - else
-            = link_to email.mailname, set_current_email_path(email.id)
-          span class="badge pull-right"
-            => link_to " ", get_inside_mail_path(email.id), class: "glyphicon glyphicon-envelope spaceright", target: "_blank", title: "Войти в этот ящик"
-            => link_to " ", change_block_status_path(email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{email.mailname}@#{@domain.domainname}?" }
-            => link_to " ", kill_that_mail_path(email.id), class: "glyphicon glyphicon-remove", title: "Прибить ящик", data: { confirm: "Точно хотите убить, а не заблокировать ящик #{email.mailname}?" }
+        => link_to " ", new_email_path, class: "glyphicon glyphicon-plus", title: "Добавить новый email"
+      div id="emailslist"
+        input type="text" class="fuzzy-search" placeholder="Поиск"
+        ul class="list list-group"
+          - @domain.emails.order("mailname").each do |email|
+            li class="list-group-item mailsfix"
+              p class="name"
+                - if email.enabled == false
+                  = link_to email.mailname, set_current_email_path(email.id), class: "disabled"
+                - else
+                  = link_to email.mailname, set_current_email_path(email.id)
+                span class="badge pull-right"
+                  | <a class="btn-clipboard glyphicon glyphicon-copy spaceright", data-clipboard-text="
+                  = "#{email.mailname}@#{email.domain.domainname}"
+                  |", title="Скопировать в буфер обмена">  </a>
+                  => link_to " ", get_inside_mail_path(email.id), class: "glyphicon glyphicon-envelope spaceright", target: "_blank", title: "Войти в этот ящик"
+                  => link_to " ", change_block_status_path(email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{email.mailname}@#{@domain.domainname}?" }
+                  => link_to " ", kill_that_mail_path(email.id), class: "glyphicon glyphicon-remove", title: "Прибить ящик", data: { confirm: "Точно хотите убить, а не заблокировать ящик #{email.mailname}?" }
       - if @domain.emails.size == 0
         hr
           b
@@ -29,3 +35,12 @@
             = " список ящиков"
   .col-md-8
     = render 'layouts/tabs'
+
+script src="http://listjs.com/assets/javascripts/list.min.js"
+script src="https://cdnjs.cloudflare.com/ajax/libs/list.fuzzysearch.js/0.1.0/list.fuzzysearch.js"
+script
+  | new Clipboard('.btn-clipboard');
+script
+  | var monkeyList = new List('emailslist', { 
+  | valueNames: ['name'], 
+  | plugins: [ ListFuzzySearch() ] });
