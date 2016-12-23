@@ -1,5 +1,5 @@
-﻿= render "shared/errors", obj: @domain
-= render "shared/errors", obj: @email
+﻿/= render "shared/errors", obj: @domain
+/= render "shared/errors", obj: @email
 = render "shared/page_title", title: "Домен #{@domain.domainname}"
 
 .row
@@ -17,9 +17,15 @@
             li class="list-group-item mailsfix"
               p class="name"
                 - if email.enabled == false
-                  = link_to email.mailname, set_current_email_path(email.id), class: "disabled"
+                  - if email == @email
+                    = link_to email.mailname, set_current_email_path(email.id), class: "disabled bold"
+                  - else
+                    = link_to email.mailname, set_current_email_path(email.id), class: "disabled"
                 - else
-                  = link_to email.mailname, set_current_email_path(email.id)
+                  - if email == @email
+                    = link_to email.mailname, set_current_email_path(email.id), class: "bold"
+                  - else
+                    = link_to email.mailname, set_current_email_path(email.id)
                 span class="badge pull-right"
                   | <a class="btn-clipboard glyphicon glyphicon-copy spaceright", data-clipboard-text="
                   = "#{email.mailname}@#{email.domain.domainname}"

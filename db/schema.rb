@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216221508) do
+ActiveRecord::Schema.define(version: 20161223173626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,13 +35,15 @@ ActiveRecord::Schema.define(version: 20161216221508) do
     t.boolean  "enabled"
     t.boolean  "signed_eula"
     t.string   "fio"
-    t.string   "aliases"
     t.string   "pswrd"
     t.string   "hinta"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "uid"
     t.string   "sex"
+    t.boolean  "maillist"
+    t.string   "fwdto",       default: [],              array: true
+    t.string   "aliases",     default: [],              array: true
     t.index ["uid"], name: "index_emails_on_uid", using: :btree
   end
 

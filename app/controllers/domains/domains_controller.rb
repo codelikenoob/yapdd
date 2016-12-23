@@ -1,7 +1,7 @@
 ﻿require 'yapdd_api'
 
 class Domains::DomainsController < Domains::ApplicationController
-  before_action :set_domain, only: [:edit, :update, :show, :index, :dashboard, :refresh, :check_for_forwards, :kill_filter, :add_filter, :kill_that_mail, :block_that_mail, :unblock_that_mail, :set_current_email]
+  before_action :set_domain, only: [:edit, :update, :show, :index, :dashboard, :refresh, :kill_filter, :add_filter, :kill_that_mail, :block_that_mail, :unblock_that_mail, :set_current_email]
   before_action :set_domains, only: [:dashboard, :new]
   before_action :set_email, only: [:edit, :update, :show, :dashboard]
   before_action :set_tab
@@ -91,7 +91,6 @@ class Domains::DomainsController < Domains::ApplicationController
     session[:tab] = params[:id]
     redirect_to root_path
   end
-
 
   private
   

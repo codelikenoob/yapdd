@@ -2,39 +2,65 @@
 h4
   = "Ящик " + @email.mailname + "@" + @email.domain.domainname + ":"
 .row
-  = render 'domains/emails/email_update_form'
-  .well.col-md-5
-    h4
-      | Суммарная информация:
-    p
-      |  Имя: 
-      = @email.iname.presence ? (@email.iname) : "хз"
-    p
-      |  Фамилия: 
-      = @email.fname.presence ? (@email.fname) : "хз"
-    p
-      |  ФИО: 
-      = @email.fio.presence ? (@email.fio) : "хз"
-    p
-      |  День рождения: 
-      = @email.birth_date.presence ? (@email.birth_date) : "хз"
-    p
-      |  Секретный вопрос: 
-      = @email.hintq.presence ? (@email.hintq) : "хз"
-    p
-      |  Пол: 
-      = (@email.sex == "1") ? 'мужской' : ((@email.sex == "2") ? 'женский' : 'всё сложно')
-    p
-      |  Фурычит ли: 
-      => @email.enabled ? "да" : "нет"
-      => link_to " ", change_block_status_path(@email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{@email.mailname}@#{@domain.domainname}?" }
-    p
-      |  Подписано ли соглашение: 
-      = @email.signed_eula.presence ? (@email.signed_eula) : "хз"
-    p
-      |  Информация обновлена: 
-      = @email.updated_at
-    hr
-    br
-      | * Пароль и ответ на секретный вопрос безвозвратно забываются при обновлении инфрмации о ящиках
-    br
+  - if @email.maillist != true
+    = render 'domains/emails/email_update_form'
+    .well.col-md-5
+      h4
+        | Суммарная информация:
+      p
+        |  Имя: 
+        = @email.iname.presence ? (@email.iname) : "хз"
+      p
+        |  Фамилия: 
+        = @email.fname.presence ? (@email.fname) : "хз"
+      p
+        |  ФИО: 
+        = @email.fio.presence ? (@email.fio) : "хз"
+      p
+        |  День рождения: 
+        = @email.birth_date.presence ? (@email.birth_date) : "хз"
+      p
+        |  Секретный вопрос: 
+        = @email.hintq.presence ? (@email.hintq) : "хз"
+      p
+        |  Пол: 
+        = (@email.sex == "1") ? 'мужской' : ((@email.sex == "2") ? 'женский' : 'всё сложно')
+      p
+        |  Фурычит ли: 
+        => @email.enabled ? "да" : "нет"
+        => link_to " ", change_block_status_path(@email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{@email.mailname}@#{@domain.domainname}?" }
+      p
+        |  Готов ли к работе: 
+        = @email.signed_eula.presence ? "да" : "хз"
+      p
+        |  Псевдонимы: 
+        - if @email.aliases.present?
+          - @email.aliases.each do |a|
+            = "#{a} "
+            => link_to " ", "#", class: "glyphicon glyphicon-remove spaceright", title: "Удалить псевдоним", data: { confirm: "Точно хотите удалить псевдоним #{a}? (пока эта функция не работает)" }
+        - else
+          | нет
+        form[action="/add_alias/"]
+          .input-group
+            span#basic-addon1.input-group-addon
+              | @
+            | <input type="hidden" name="new_alias" value="
+            = params[:new_alias]
+            | "> 
+            input.form-control[type="text" placeholder="новый псевдоним" aria-describedby="basic-addon1" name="new_alias"]
+            input.button[type="submit" value="Плюх" style="display:none;"]
+        |  <a href="/add_alias/?&new_alias=
+        = :new_alias
+        | "> </a>
+      p
+        | * добавление и удаление псевдонимов пока не работает - разбираюсь с API.
+      p
+        |  Информация обновлена: 
+        = @email.updated_at
+      hr
+      br
+        | * Пароль и ответ на секретный вопрос безвозвратно забываются при обновлении инфрмации о ящиках
+      br
+  - else
+    h3
+      | Это специальный адрес для рассылки. Есть смысл перейти во вкладку "Переадресация"

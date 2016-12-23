@@ -1,28 +1,48 @@
 = render 'shared/errors', obj: @domain
-h4
-  | Переадресации ящика 
-  = @email.mailname + "@" + @domain.domainname
-  | :
-ul.list-group
-  - get_filters
-  - if @filters.size == 0
-    br
-    = "Переадресаций не установлено"
-  - @filters.each do |fltr|
-    li class="list-group-item"
-      =' fltr['filter_param']
-      = link_to " ", kill_filter_path(fltr['id']), class: "glyphicon glyphicon-remove"
-form[action="/add_filter/"]
-  .input-group
-    span#basic-addon1.input-group-addon
-      | @
-    | <input type="hidden" name="email" value="
-    = params[:address]
-    | "> 
-    input.form-control[type="text" placeholder="Куда переадресовать?" aria-describedby="basic-addon1" name="address"]
-    input.button[type="submit" value="Плюх" style="display:none;"]
-|  <a href="/addfilter/?&email=
-= :address
-| ">
-br
-br
+.row
+  .col-md-6
+    h4
+      | Переадресации ящика 
+      = @email.mailname + "@" + @domain.domainname
+      | :
+    ul.list-group
+      - get_filters(@email)
+      - @email.save
+      - if @filters.size == 0
+        br
+        = "Переадресаций не установлено"
+      - @filters.each do |fltr|
+        li class="list-group-item"
+          => fltr['filter_param']
+          span class="badge pull-right"
+            = link_to " ", kill_filter_path(fltr['id']), class: "glyphicon glyphicon-remove", title: "Удалить переадресацию", data: { confirm: "Точно хотите удалить переадресацию на #{fltr['filter_param']}?" }
+    form[action="/add_filter/"]
+      .input-group
+        span#basic-addon1.input-group-addon
+          | @
+        | <input type="hidden" name="email" value="
+        = params[:address]
+        | "> 
+        input.form-control[type="text" placeholder="Куда переадресовать?" aria-describedby="basic-addon1" name="address"]
+        input.button[type="submit" value="Плюх" style="display:none;"]
+    |  <a href="/addfilter/?&email=
+    = :address
+    | "> </a>
+  .col-md-5
+    h4
+      | Входящие переадресации<br>
+      small
+        | поиск ведётся по всем подключенным к вашему аккаунту доменам
+    ul.list-group
+      - incoming(@email)
+      - if @incomefwd.size == 0
+        br
+        | Никто не переадресовывает свою почту на этот ящик
+      - @incomefwd.each do |fltr|
+        li class="list-group-item"
+          - if fltr.split('@')[1] == @domain.domainname
+            - mail_id = @domain.emails.find_by(mailname: fltr.split('@')[0])
+            => link_to fltr, set_current_email_path(mail_id.id)
+          - else
+            => fltr
+            

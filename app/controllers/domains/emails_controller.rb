@@ -3,7 +3,7 @@ require 'uri'
 
 class Domains::EmailsController < Domains::ApplicationController
 
-  before_action :set_domain, only: [:get_inside_mail, :kill_that_mail, :new, :create, :add_filter, :update]
+  before_action :set_domain, only: [:get_inside_mail, :kill_that_mail, :new, :create, :add_filter, :update, :add_alias, :kill_alias]
   before_action :set_domains, only: [:new, :update]
   before_action :set_email, only: [:get_inside_mail, :kill_that_mail, :update]
   before_action :set_tab
@@ -99,6 +99,7 @@ class Domains::EmailsController < Domains::ApplicationController
     url_custom = url_custom + "&birth_date=#{@email.birth_date.strftime('%F')}" if @email.birth_date.present?
     url_custom = url_custom + "&hintq=#{@email.hintq}" if @email.hintq.present?
     url_custom = url_custom + "&hinta=#{@email.hinta}" if @email.hinta.present?
+    url_custom = url_custom + "&aliases=#{@email.aliases}" if @email.aliases.present?
     url_custom = url_custom + "&sex=#{@email.sex}" if @email.sex.present?
 
     url = URI::encode(url_custom)
@@ -125,23 +126,18 @@ class Domains::EmailsController < Domains::ApplicationController
   end
 
   def change_block_status
-    email = Email.find(params[:id])
-    if email.enabled == true
-      newstatus = "no"
-    else
-      newstatus = "yes"
-    end
-    if email.enabled == true
-      email.enabled = false
-      email.save
-    else
-      email.enabled = true
-      email.save
-    end
+    email = Email.find_by_id(params[:id])
     if email.domain.user == current_user
+      if email.enabled
+        newstatus = "no"
+        email.enabled = false
+      else
+        newstatus = "yes"
+        email.enabled = true
+      end
       url = "https://pddimp.yandex.ru/api2/admin/email/edit?domain=#{email.domain.domainname}&login=#{email.mailname}&enabled=#{newstatus}"
       request = RestClient::Request.execute(method: :post, url: url, headers: { PddToken: "#{email.domain.domaintoken2}" })
-      flash[:success] = request.to_s
+      flash[:success] = "Статус успешно изменён на #{newstatus}"
       redirect_to root_path
     else
       render status: 403, layout: false
@@ -181,10 +177,40 @@ class Domains::EmailsController < Domains::ApplicationController
     redirect_to root_path
   end
 
+  def add_alias
+    email = Email.find(session[:current_email])
+    new_alias = params[:new_alias]
+    aliazez = []
+    @domain.emails.each do |al|
+      if al.aliases.size > 0
+        aliazez << al.aliases
+      end
+    end
+    not_in_aliases = true
+    aliazez.each do |qq|
+      if qq.split('@')[0] == new_alias.split('@')[0]
+        not_in_aliases = false
+      end
+    end
+    if @domain.emails.find_by(mailname: new_alias.split('@')[0]) != nil && not_in_aliases
+      flash[:danger] = "Такой адрес уже есть :/"
+      redirect_to root_path
+    else
+      email.aliases << (new_alias + "@" + @domain.domainname)
+      email.save
+      flash[:success] = "Вроде, получилось!"
+      redirect_to root_path
+    end
+  end
+
+  def kill_alias
+    email = Email.find(session[:current_email])
+  end
+  
 private
 
   def email_params
-    params.require(:email).permit(:mailname, :iname, :fname, :pswrd, :birth_date, :hintq, :hinta, :sex)
+    params.require(:email).permit(:mailname, :iname, :fname, :pswrd, :birth_date, :hintq, :hinta, :sex, :aliases)
   end
   
   def set_email

@@ -30,5 +30,7 @@ Rails.application.routes.draw do
   get 'faq', to: "pages#faq", as: 'faq'
   patch 'update_domain/:id', to: "domains/domains#update", as: 'update_domain'
   patch 'update_email/:id', to: "domains/emails#update", as: 'update_email'
+  get 'add_alias', to: "domains/emails#add_alias", as: "add_alias"
+  get 'kill_alias', to: "domains/emails#kill_alias", as: "kill_alias"
 
 end
