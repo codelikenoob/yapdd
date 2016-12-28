@@ -1,8 +1,8 @@
 - if obj
   - if obj.errors.any?
-      errors = ""
+      - errors = []
       - obj.errors.full_messages.each do |msg|
-        errors = errors + msg + "\n"
+        - errors << msg
       #errors.row.alert-message[style="display:none;z-index:10;"]
         .col-md-10
           .alert.alert-danger

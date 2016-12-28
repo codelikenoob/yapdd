@@ -11,7 +11,7 @@
         => link_to " ", refresh_domain_path(@domain), class: "glyphicon glyphicon-refresh", title: "Обновить информацию о ящиках в этом домене"
         => link_to " ", new_email_path, class: "glyphicon glyphicon-plus", title: "Добавить новый email"
       div id="emailslist"
-        input type="text" class="fuzzy-search" placeholder="Поиск"
+        input type="text" class="fuzzy-search" placeholder="Поиск среди живых"
         ul class="list list-group"
           - @domain.emails.order("mailname").each do |email|
             li class="list-group-item mailsfix"

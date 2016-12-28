@@ -8,39 +8,39 @@ h4
       h4
         | Суммарная информация:
       p
-        |  Имя: 
+        | <b>Имя: </b>
         = @email.iname.presence ? (@email.iname) : "хз"
       p
-        |  Фамилия: 
+        | <b>Фамилия: </b>
         = @email.fname.presence ? (@email.fname) : "хз"
       p
-        |  ФИО: 
+        | <b>ФИО: </b>
         = @email.fio.presence ? (@email.fio) : "хз"
       p
-        |  День рождения: 
+        | <b>День рождения: </b>
         = @email.birth_date.presence ? (@email.birth_date) : "хз"
       p
-        |  Секретный вопрос: 
+        | <b>Секретный вопрос: </b>
         = @email.hintq.presence ? (@email.hintq) : "хз"
       p
-        |  Пол: 
+        | <b>Пол: </b>
         = (@email.sex == "1") ? 'мужской' : ((@email.sex == "2") ? 'женский' : 'всё сложно')
       p
-        |  Фурычит ли: 
+        | <b>Фурычит ли: </b>
         => @email.enabled ? "да" : "нет"
         => link_to " ", change_block_status_path(@email.id), class: "glyphicon glyphicon-off spaceright", title: "Вкл/выкл ящика", data: { confirm: "Точно хотите сменить статус блокировки у #{@email.mailname}@#{@domain.domainname}?" }
       p
-        |  Готов ли к работе: 
+        | <b>Готов ли к работе: </b>
         = @email.signed_eula.presence ? "да" : "хз"
       p
-        |  Псевдонимы: 
+        | <b>Псевдонимы: </b>
         - if @email.aliases.present?
           - @email.aliases.each do |a|
             = "#{a} "
-            => link_to " ", "#", class: "glyphicon glyphicon-remove spaceright", title: "Удалить псевдоним", data: { confirm: "Точно хотите удалить псевдоним #{a}? (пока эта функция не работает)" }
+            => link_to " ", "#", class: "glyphicon glyphicon-remove spaceright", title: "Удалить псевдоним", data: { confirm: "К сожалению, никак. Эту возможность Яндекс даёт только в собственной админке :(" }
         - else
           | нет
-        form[action="/add_alias/"]
+        /form[action="/add_alias/"]
           .input-group
             span#basic-addon1.input-group-addon
               | @
@@ -49,18 +49,19 @@ h4
             | "> 
             input.form-control[type="text" placeholder="новый псевдоним" aria-describedby="basic-addon1" name="new_alias"]
             input.button[type="submit" value="Плюх" style="display:none;"]
-        |  <a href="/add_alias/?&new_alias=
-        = :new_alias
-        | "> </a>
+        /|  <a href="/add_alias/?&new_alias=
+        /= :new_alias
+        /| "> </a>
       p
-        | * добавление и удаление псевдонимов пока не работает - разбираюсь с API.
+        | * добавление и удаление псевдонимов доступно только в 
+        => link_to "официальной", "https://pdd.yandex.ru/domain/#{@domain.domainname}/"
+        | админке Яндекса.
+      hr
       p
         |  Информация обновлена: 
         = @email.updated_at
       hr
-      br
-        | * Пароль и ответ на секретный вопрос безвозвратно забываются при обновлении инфрмации о ящиках
-      br
+        | ** Пароль и ответ на секретный вопрос безвозвратно забываются при обновлении инфрмации о ящиках
   - else
     h3
       | Это специальный адрес для рассылки. Есть смысл перейти во вкладку "Переадресация"

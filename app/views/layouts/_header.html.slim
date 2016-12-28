@@ -22,9 +22,13 @@ header.navbar.navbar-fixed-top.navbar-default
             b.caret
           ul.dropdown-menu
             li
-              = link_to "Профиль", profile_path
+              = link_to "Управление доменами", profile_path
             li
               = link_to "FAQ", faq_path
+            li
+              = link_to "Подключить домен к Яндексу", "https://pdd.yandex.ru/domains_add/"
+            li
+              = link_to "Редактор DNS #{@domain.domainname}", "https://pdd.yandex.ru/domain_ns/#{@domain.domainname}/"
             li.divider
             li
               = link_to "Выйти", destroy_user_session_path, method: :delete

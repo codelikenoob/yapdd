@@ -13,7 +13,11 @@
         = "Переадресаций не установлено"
       - @filters.each do |fltr|
         li class="list-group-item"
-          => fltr['filter_param']
+          - if fltr['filter_param'].split('@')[1] == @domain.domainname
+            - mail_id = @domain.emails.find_by(mailname: fltr['filter_param'].split('@')[0])
+            => link_to fltr['filter_param'], set_current_email_path(mail_id.id)
+          - else
+            => fltr['filter_param']
           span class="badge pull-right"
             = link_to " ", kill_filter_path(fltr['id']), class: "glyphicon glyphicon-remove", title: "Удалить переадресацию", data: { confirm: "Точно хотите удалить переадресацию на #{fltr['filter_param']}?" }
     form[action="/add_filter/"]

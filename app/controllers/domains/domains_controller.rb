@@ -2,7 +2,7 @@
 
 class Domains::DomainsController < Domains::ApplicationController
   before_action :set_domain, only: [:edit, :update, :show, :index, :dashboard, :refresh, :kill_filter, :add_filter, :kill_that_mail, :block_that_mail, :unblock_that_mail, :set_current_email]
-  before_action :set_domains, only: [:dashboard, :new]
+  before_action :set_domains, only: [:dashboard, :new, :create]
   before_action :set_email, only: [:edit, :update, :show, :dashboard]
   before_action :set_tab
   
@@ -27,8 +27,10 @@ class Domains::DomainsController < Domains::ApplicationController
       flash[:success] = "Домен добавлен!"
       @domain.refresh_emails
       session[:current_domain] = @domain.id
+      session[:tab] = 'info'
       redirect_to root_path
     else
+      flash[:danger] = "Заполнено не всё, что требуется!"
       render :new
     end
   end

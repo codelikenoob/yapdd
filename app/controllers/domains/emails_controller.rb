@@ -99,7 +99,6 @@ class Domains::EmailsController < Domains::ApplicationController
     url_custom = url_custom + "&birth_date=#{@email.birth_date.strftime('%F')}" if @email.birth_date.present?
     url_custom = url_custom + "&hintq=#{@email.hintq}" if @email.hintq.present?
     url_custom = url_custom + "&hinta=#{@email.hinta}" if @email.hinta.present?
-    url_custom = url_custom + "&aliases=#{@email.aliases}" if @email.aliases.present?
     url_custom = url_custom + "&sex=#{@email.sex}" if @email.sex.present?
 
     url = URI::encode(url_custom)
@@ -135,6 +134,7 @@ class Domains::EmailsController < Domains::ApplicationController
         newstatus = "yes"
         email.enabled = true
       end
+      email.save
       url = "https://pddimp.yandex.ru/api2/admin/email/edit?domain=#{email.domain.domainname}&login=#{email.mailname}&enabled=#{newstatus}"
       request = RestClient::Request.execute(method: :post, url: url, headers: { PddToken: "#{email.domain.domaintoken2}" })
       flash[:success] = "Статус успешно изменён на #{newstatus}"
@@ -177,7 +177,7 @@ class Domains::EmailsController < Domains::ApplicationController
     redirect_to root_path
   end
 
-  def add_alias
+  def add_alias # не работает
     email = Email.find(session[:current_email])
     new_alias = params[:new_alias]
     aliazez = []
@@ -210,7 +210,7 @@ class Domains::EmailsController < Domains::ApplicationController
 private
 
   def email_params
-    params.require(:email).permit(:mailname, :iname, :fname, :pswrd, :birth_date, :hintq, :hinta, :sex, :aliases)
+    params.require(:email).permit(:mailname, :iname, :fname, :pswrd, :birth_date, :hintq, :hinta, :sex)
   end
   
   def set_email

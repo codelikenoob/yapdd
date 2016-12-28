@@ -1,5 +1,6 @@
-| ﻿
-= render 'shared/errors', obj: @domain
+h1
+  small
+    | все поля обязательны для заполнения
 .row
   .well.col-md-8.col-md-offset-2
     = form_for(@domain, html: { multipart: true }) do |f|
@@ -22,3 +23,5 @@
         | )
       = f.text_field :domaintoken2
       = f.submit(@domain.new_record? ? 'Добавить' : 'Сохранить', class: "btn btn-success")
+
+= render 'shared/errors', obj: @domain
